@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import {ScrollView, StyleSheet, Image ,Text, TouchableOpacity, View,Dimensions, LogBox, ImageBackground} from 'react-native';
+import {ScrollView, StyleSheet, Image ,Text, TouchableOpacity, View,LogBox, ImageBackground} from 'react-native';
 import Header from "./Header"
 import axios from "axios"
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as shape from 'd3-shape'
+import * as scale from 'd3-scale'
 import {
   ProgressChart,
 } from "react-native-chart-kit";
@@ -14,67 +15,17 @@ export default function Update({navigation}) {
 
 
   const[states_data,setStates] = useState([])
-  const[state_series,setSeries]= useState([])
   const[date,setDate]=useState([])
-  const[total,setTotal]=useState([])
-  const[statewise,setStatewise]=useState([])
   const[cases,Setcases]=useState({
     active:"",
     deaths:"",
     recoverd:"",
     confirmed:""
   })
-  const [today,setToday] = useState({
-    date:"",
-    cases:"",
-    deaths:"",
-    recovered:""
-  })
 
   const[val,setval]=useState('Total')
   const[sta,setSta]=useState("total")
   const[test,setTest]=useState("")
-
-
-  //let data = axios.get("https://api.apify.com/v2/datasets/58a4VXwBBF0HtxuQa/items?format=json&clean=1yo").then(res=>{console.log(res)})
-  //console.log(data)
-  //https://anypoint.mulesoft.com/exchange/68ef9520-24e9-4cf2-b2f5-620025690913/covid19-data-tracking-api/minor/3.0/console/method/%231450/
-
-
-/*
-  useEffect(()=>{
-    let g ;
-    function get_states_series(){
-      axios.get("https://api.rootnet.in/covid19-in/unofficial/covid19india.org/statewise/history").then(res=>{
-        if(res.data.data.history.length > 1){
-          setSeries(res.data.data.history)
-          let len = state_series.length
-          let l2 = state_series[len-1].statewise.length
-           for(let i=0 ; i<len ;i++){
-         date.push(state_series[i].day)  
-         total.push(state_series[i].total)    
-         statewise.push(state_series[i].statewise)       
-      }  
-        }
-        }
-  
-      )}
-      
-    get_states_series()
-  },{})
-  const[key,setKey] = useState([])
-
-  function do_this(){
-  let l = statewise.length
-  for(let j=0;j<l;j++){
-    let g = statewise[j].find(s => s.state === val)
-    key.push(g)
-
-  }
-  console.log(key)
-
-}
-*/
 const[confirmed,setCon]=useState([])
 const[deceased,setDea]=useState([])
 const[recovered,setRec]=useState([])
@@ -84,6 +35,10 @@ const[vaccinated,setVacc]=useState([])
 const [qw,setQ] = useState([])
 
 const[x,setX] = useState([])
+
+
+
+
 useEffect(()=>{
   axios.get("https://api.covid19india.org/v4/min/timeseries.min.json").then(res=>{
     var p = res.data.MH.dates
@@ -143,54 +98,10 @@ get_states()
       return num; // if value < 1000, nothing to do
   }
 }
-
+LogBox.ignoreAllLogs()
 // this function sets the todays data on the dropdown picker
 
- const data1 = confirmed.slice(-120,-1)
- const data4 = date.slice(-120,-1)
- const data2 = recovered.slice(-120,-1)
- const data3 = deceased.slice(-120,-1)
-
- function Test(key, values) {
-  this.x = key;
-  this.y = values;
-}
- const activeData = [
-     {
-         data: data1,
-         svg: { stroke: '#8800cc' },
-     }
-    ]
-    const recoveredData = [
-      {
-        data: data2,
-        svg: { stroke: 'green' },
-    },
-     ]
-     const DeathsData = [
-      {
-        data: data3,
-        svg: { stroke: 'red' },
-    },
-     ]
-    
-   
- const data5= [
-  { x: -2, y: 1 },
-  { x: -1, y: 0 },
-  { x: 8, y: 13 },
-  { x: 9, y: 11.5 },
-  { x: 10, y: 12 }
-]
-const data0 = [];
-for(let i =0 ;i<data1.length;i++){
-  data0.push(new Test(data4[i],data1[i]))
-}
-const data7 = [
-  {x: 2, y: 54}, {x: 2, y: 56},
-]
-
- function no(a){
+  function no(a){
 
    vaccinated.splice(0,vaccinated.length)
    tested.splice(0,tested.length)
@@ -198,7 +109,9 @@ const data7 = [
    recovered.splice(0,recovered.length)
    confirmed.splice(0,confirmed.length)
 
+   if(x !== undefined ){
    let dates_series = x[a].dates
+
    let o = Object.keys(dates_series)
    let pq=[]
    let sk =[]
@@ -217,10 +130,7 @@ data12.map(data=>{
 
 
 })
-
-  
-
-}
+}}
   return (
         <View style={styles.container}>
       <Header/>
@@ -255,8 +165,10 @@ data12.map(data=>{
     <View style={styles.data_box}>
        <Text style={styles.chartLabel}>Confirmed</Text>
       <BarChart style={{ height: 200 }} data={tested} svg={{fill: 'rgb(134, 65, 244)'}} contentInset={{ top: 30, bottom: 30 }}>
-                <Grid />
+      <Grid />
+                <Text style={styles.xaxis}> July Aug Sept Oct Nov Dec Jan Feb Mar Apr May Jun</Text>  
             </BarChart>
+      
     </View>
     <View style={styles.data_box}>
     <Text style={styles.chartLabel}>Recovered</Text>
@@ -264,36 +176,56 @@ data12.map(data=>{
       <BarChart style={{ height: 200}} data={recovered} svg={{fill: 'rgb(134, 65, 244)'}} contentInset={{ top: 30, bottom: 30 }}
       animate={true} spacingOuter= {0.1}>
                 <Grid />
-            </BarChart>
+                <YAxis
+                    style={ { position: 'absolute', top: 0, bottom: 0 }}
+                    data= {  [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]}
+                    contentInset={ { top: 10, bottom: 10 } }
+                    svg={ {
+                        fontSize: 8,
+                        fill: 'white',
+                        stroke: 'black',
+                        strokeWidth: 0.1,
+                        alignmentBaseline: 'baseline',
+                        baselineShift: '3',
+                    } }
+                />
+                              <Grid />
+                <Text style={styles.xaxis}> July Aug Sept Oct Nov Dec Jan Feb Mar Apr May Jun</Text>  
+            </BarChart>   
     </View>
 
     <View style={styles.data_box}>
     <Text style={styles.chartLabel}>Deceased</Text>
       <BarChart style={{ height: 200 }} data={tested} svg={{fill: 'rgb(134, 65, 244)'}} contentInset={{ top: 30, bottom: 30 }}>
                 <Grid />
+                <Text style={styles.xaxis}> July Aug Sept Oct Nov Dec Jan Feb Mar Apr May Jun</Text>    
             </BarChart>
     </View>
     <ImageBackground style={styles.data_box2} source={require("./live.jpg")} opacity={0.5}>
-      <Text>Live Updates : {date[date.length-2]} </Text>
-      <Text>About Corona Virus</Text>
+      <Text style={styles.liveUpdates}>Live Updates : 04 -06 -2021    </Text>
+      <Text style={styles.liveUpdates}>About Corona Virus</Text>
       <View style={styles.live}>
-      <Text style={{textAlign:"center",fontWeight:"bold",color:"white"}}>Confirmed {'\n'}{confirmed[confirmed.length-2]}</Text>
-      <Text style={{textAlign:"center"}}>Recovered {'\n'}{recovered[recovered.length-2]}</Text>
-      <Text style={{textAlign:"center"}}>Deaths {'\n'}{deceased[deceased.length-2]}</Text></View>
+      <Text style={styles.liveUpdates}>Confirmed {'\n'}{confirmed[confirmed.length-2]}</Text>
+      <Text style={styles.liveUpdates}>Recovered {'\n'}{recovered[recovered.length-2]}</Text>
+      <Text style={styles.liveUpdates}>Deaths {'\n'}{deceased[deceased.length-2]}</Text></View>
     </ImageBackground>
 
     
     <View style={styles.data_box}>
     <Text style={styles.chartLabel}>Vaccinated</Text>
       <BarChart style={{ height: 200 }} data={vaccinated} svg={{fill: 'rgb(134, 65, 244)'}} contentInset={{}}>
-                <Grid />
+      <Grid />
+                <Text style={styles.xaxis}> Jan        Feb         Mar        Apr            May           Jun</Text>  
             </BarChart>
+            
     </View>
     <View style={styles.data_box}>
       <Text style={styles.chartLabel}>Tested</Text>
       <BarChart style={{ height: 200 }} data={tested} svg={{fill: 'rgb(134, 65, 244)'}} contentInset={{ top: 30, bottom: 30 }}>
-                <Grid />
+      <Grid />
+                <Text style={styles.xaxis}> July Aug Sept Oct Nov Dec Jan Feb Mar Apr May Jun</Text>  
             </BarChart>
+              
     </View>
     <TouchableOpacity onPress={()=>{navigation.navigate("WorldWide")}}>
     <View style={styles.test}>
@@ -388,6 +320,16 @@ const styles = StyleSheet.create({
     backgroundColor:"#5E0C91",
     color:"white",
     fontWeight:"bold"
+  },
+  xaxis:{
+    fontWeight:"bold",
+    fontSize:13
+  },
+  liveUpdates:{
+    textAlign:"center",
+    color:"white",
+    fontWeight:"bold",
+    fontSize:17
   }
 });
 //#endregion
