@@ -5,7 +5,7 @@ import {
   Text,
   View,
   processColor,
-  LayoutAnimation
+  LogBox
 } from "react-native";
 import axios from "axios"
 import vaccine from "./vaccine.json"
@@ -57,6 +57,7 @@ vaccine.forEach(i=>{
 
  function handleSelect(event) {
     let entry = event.nativeEvent;
+    LogBox.ignoreAllLogs();
     if (entry == null) {
       setSta({ ...sta, selectedEntry: null });
     } else {
@@ -66,7 +67,11 @@ vaccine.forEach(i=>{
       let d = entry.data.x
       let e = String(d).slice(0,4) +"-"+ String(d).slice(4,6) +"-"+ String(d).slice(6,8)
       console.log(e)
-      setSta({ ...sta, x:format(entry.data.y),y:e });
+      if(entry.data.y !== undefined) {
+        setSta({ ...sta, x: format(entry.data.y),y:e });
+
+      }
+      
     }
   }
 
@@ -82,7 +87,7 @@ vaccine.forEach(i=>{
             data={{
               dataSets: [
                 {
-                  values:paq.slice(-60,-1),
+                  values:paq.slice(-90,-1),
                   label: "",
                   config: {
                     mode: "CUBIC_BEZIER",
@@ -146,12 +151,12 @@ vaccine.forEach(i=>{
             drawGridBackground={false}
             drawBorders={false}
             touchEnabled={true}
-            dragEnabled={false}
-            scaleEnabled={false}
-            scaleXEnabled={false}
-            scaleYEnabled={false}
-            pinchZoom={false}
-            doubleTapToZoomEnabled={false}
+            dragEnabled={true}
+            scaleEnabled={true}
+            scaleXEnabled={true}
+            scaleYEnabled={true}
+            pinchZoom={true}
+            doubleTapToZoomEnabled={true}
             dragDecelerationEnabled={true}
             dragDecelerationFrictionCoef={0.99}
             keepPositionOnRotation={false}

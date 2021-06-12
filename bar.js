@@ -11,7 +11,7 @@ import {BarChart} from 'react-native-charts-wrapper';
 const BarChartScreen=(props) =>{
 
     let vac = [1,2] /*[1, 6, 2, undefined, 2, undefined, undefined, 1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefin]*/
-
+let vac3;
     let vac2=[]
     for (let i = 0;i<vac.length;i++){
         if (vac[i] == undefined){

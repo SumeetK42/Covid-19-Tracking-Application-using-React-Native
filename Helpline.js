@@ -1,8 +1,6 @@
-import axios from 'axios';
 import React,{useState} from 'react';
 import { Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Table ,Row, Col } from 'react-native-table-component';
-import Header from "./Header"
 import Hel from "./csvjson.json"
 
 
@@ -18,7 +16,7 @@ export default function Helpline() {
       </Text>
       
       <View style={styles.data} >
-        <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
+        <Table borderStyle={{borderWidth: 0.4, borderColor: 'black'}}>
           <Row data={head} style={styles.head} textStyle={{margin:10}}></Row>
           {
             Hel.map((num)=>(
@@ -46,13 +44,13 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     padding:10
   }
-  ,head:{backgroundColor:"aqua",height:40,alignContent:"center"},
+  ,head:{backgroundColor:"#abdbe3",height:40,alignContent:"center"},
   call:{
     borderWidth:4,
     borderColor:"black",
     padding:15,
     borderRadius:30,
-    backgroundColor:"pink"
+    backgroundColor:"#abdbe3"
   }
 
 });

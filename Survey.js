@@ -33,11 +33,11 @@ export default function Survey() {
   console.log(prediction)
   if(Prediction>0.5){
     return (
-      <Text style={styles.inf}>High Risk Of infection {'\n'} *We reccommend you do visit doctor immediately</Text>
+      <Text style={styles.inf}>High Risk Of infection {'\n'} *We recommend you to visit doctor immediately</Text>
     )
   }
   else{
-    return (<Text style={styles.inf}>Low Risk Of infection {'\n'} *Make sure you stay safe</Text>)
+    return (<Text style={styles.inf}>Low Risk Of infection {'\n'} *Make sure you are stay safe</Text>)
   }
 
 }
@@ -51,9 +51,7 @@ for (let i = 0;i<100;i++){
 
   return (
     <View style={styles.container}>
-      <Header/>
-
-      <View>
+         <View>
       <Modal
         animationType="slide"
         transparent={true}
@@ -71,7 +69,7 @@ for (let i = 0;i<100;i++){
     </View>
       <ScrollView>
       <View style={styles.data}>
-        <Text style={{textAlign:"center", fontWeight:"bold",fontSize:20}}>Answer this Simple questions </Text>
+        <Text style={{textAlign:"center", fontWeight:"bold",fontSize:20, borderBottomColor:"grey",borderBottomWidth:2,borderTopWidth:2,backgroundColor:'#abdbe3',color:"black",padding:6}}>Answer this Simple questions </Text>
       </View>
      
       <View style={styles.que}>
@@ -148,7 +146,7 @@ for (let i = 0;i<100;i++){
         </View>
       </View>
 
-      <TouchableOpacity style={styles.sub} onPress={() => setModalVisible(true)} ><View><Text style={{textAlign:"center",color:"white", fontSize:20}}>Submit</Text></View></TouchableOpacity> 
+      <TouchableOpacity style={styles.sub} onPress={() => setModalVisible(true)} ><View><Text style={{textAlign:"center", fontSize:20,color:"black",fontWeight:"bold"}}>Submit</Text></View></TouchableOpacity> 
       </ScrollView>
       
     </View>
@@ -158,7 +156,7 @@ for (let i = 0;i<100;i++){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
   },
   results:{
     margin: 20,
@@ -183,34 +181,19 @@ const styles = StyleSheet.create({
     color:"white",
     fontWeight:"bold"
   },
-  yes:{
-    borderWidth:2,
-    borderColor:"black",
-    width:150,
-    paddingLeft:5,paddingRight:5,
-    borderRadius:30,
-    margin:5
-  },
-  no:{
-    borderWidth:2,
-    borderColor:"black",
-    width:150,
-   paddingLeft:5,paddingRight:5,
-   borderRadius:30,
-    margin:5
-  },
   sub:{
     flex: 1,
     alignItems:'center',   
     borderWidth:2,
     borderColor:"black",
-    margin:20,
-    backgroundColor:"#46458A",
-    padding:9
+    margin:3,
+    marginTop:-10,
+    backgroundColor:"#abdbe3",
+    padding:2,
   },
   que:{
-    padding:4,
-  margin:1 },
+    padding:3,
+  marginLeft:3 },
   fl:{
     flex:1,flexDirection:"row",flexWrap: "wrap",marginLeft:20
   },

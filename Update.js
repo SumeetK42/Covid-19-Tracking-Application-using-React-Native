@@ -103,6 +103,8 @@ LogBox.ignoreAllLogs()
 
   function no(a){
 
+    LogBox.ignoreAllLogs()
+
    vaccinated.splice(0,vaccinated.length)
    tested.splice(0,tested.length)
    deceased.splice(0,deceased.length)
@@ -202,7 +204,7 @@ data12.map(data=>{
             </BarChart>
     </View>
     <ImageBackground style={styles.data_box2} source={require("./live.jpg")} opacity={0.5}>
-      <Text style={styles.liveUpdates}>Live Updates : 04 -06 -2021    </Text>
+      <Text style={styles.liveUpdates}>Live Updates : 12 -06 -2021    </Text>
       <Text style={styles.liveUpdates}>About Corona Virus</Text>
       <View style={styles.live}>
       <Text style={styles.liveUpdates}>Confirmed {'\n'}{confirmed[confirmed.length-2]}</Text>

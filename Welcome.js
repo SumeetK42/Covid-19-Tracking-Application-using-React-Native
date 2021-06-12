@@ -22,7 +22,7 @@ const[modal,setModal] = useState(false)
       </View></TouchableOpacity>
 
           
-      
+  
       
     </View>
 

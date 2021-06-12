@@ -1,24 +1,12 @@
 import React ,{useEffect, useState} from 'react';
-import { StyleSheet, Text, View,Image, ScrollView, Button ,Linking, ImageBackground} from 'react-native';
+import { StyleSheet, Text, View,Image, ScrollView, Button ,Linking, ImageBackground,LogBox} from 'react-native';
 import Header from "./Header"
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import axios from "axios"
 import {Col,Row,Grid} from "react-native-easy-grid"
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart
-} from "react-native-chart-kit";
 import Line from "./cv"
 
 export default function Vaccine() {
-const [vacindia,setVac] = useState([])
-const [date,setDate] = useState([])
-const [total,setTotal] = useState([])
-
-const [till,setTill]  = useState()
 const[daily,setDaily] =useState({daily_vaccinations:"",daily_vaccinations_per_million: 1333, daily_vaccinations_raw: 2180486, date: "2021-05-05",people_fully_vaccinated: 30200597,
  people_fully_vaccinated_per_hundred: 2.19, people_vaccinated: 129730641, people_vaccinated_per_hundred: 9.4, total_vaccinations: 159931238, 
  total_vaccinations_per_hundred : 11.59})
@@ -32,15 +20,12 @@ const[time,setTime]=useState([])
     }
     timeline()
   },[])
-
-  
-
   useEffect(()=>{
 function doses(){
   axios.get("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.json").then(res=>{
 
-    let l = res.data[92].data.length;
-    setDaily(res.data[92].data[l-1])
+    let l = res.data[93].data.length;
+    setDaily(res.data[93].data[l-1])
   })
 }
 doses()
@@ -48,15 +33,7 @@ doses()
 
 },[])
 
-  const [m,setM] =useState([])
   let dates = [time]
-  const data = [
-    { quarter: 1, earnings: 13000 },
-    { quarter: 2, earnings: 16500 },
-    { quarter: 3, earnings: 14250 },
-    { quarter: 4, earnings: 19000 }
-  ]; 
-
 var key=[];
 var value=[];
 var i;
@@ -129,36 +106,49 @@ function format(num)
       <View style={{padding:10}}>
         <Text style={{textAlign:"center",fontSize:25,fontWeight:'bold',marginBottom:10,textDecorationLine: 'underline'}}>Effectiveness of vaccines</Text>
         
-    <ProgressChart
-  data={{
-    label:["Bharat Biotech - Covaxin","hjjh"],
-    data:[0.4,0.5]
-  }}
-  width={300}
-  height={220}
-  strokeWidth={20}
-  radius={32}
-  chartConfig={ { backgroundGradientFrom: "black",
-  backgroundGradientFromOpacity: 0.1,
-  backgroundGradientTo: "pink",
-  backgroundGradientToOpacity: 0.5,
-  propsForLabels:{
-    r: "6",
-    strokeWidth: "4",
-
-  },
-  color: (opacity = 1) => `rgba(2, 0, 146, ${opacity})`}}
-  style={{
-    marginLeft:25
-  }}
-
-/>
 
     <Text style={styles.effective}>
-      Bharat Biotech - Covshield : 90%
+      Serum Institute- Covshield : 70%
     </Text>
+<View style={{flex: 1,flexDirection:'row',justifyContent :"space-around"}}>
+    
+<AnimatedCircularProgress
+  size={120}
+  width={15}
+  fill={78}
+  tintColor="#1C4161"
+  onAnimationComplete={() => console.log('onAnimationComplete')}
+  backgroundColor="#ABAEEF" 
+  >
+  {
+    ()=> (
+      <Text style={{fontSize:25,fontWeight:'bold'}}>
+        78 %
+      </Text>
+    )
+  }
+  </AnimatedCircularProgress>
+
+  <AnimatedCircularProgress
+  size={120}
+  width={15}
+  fill={70}
+  tintColor="#1C4161"
+  onAnimationComplete={() => console.log('onAnimationComplete')}
+  backgroundColor="#ABAEEF" 
+  >
+  {
+    ()=> (
+      <Text style={{fontSize:25,fontWeight:'bold'}}>
+        70 %
+      </Text>
+    )
+  }
+  </AnimatedCircularProgress>
+  </View>
+
     <Text style={styles.effective}>
-      Serum Institute - Covaxin : 90%
+      Bharat Biotech - Covaxin : 78%
     </Text>
     
     </View>

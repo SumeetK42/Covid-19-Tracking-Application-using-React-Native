@@ -1,15 +1,7 @@
 import React, { useState,useEffect } from 'react';
-import { Button, StyleSheet, Text, View,TextInput, KeyboardAvoidingView, TouchableWithoutFeedback, } from 'react-native';
-import {useNavigation} from "@react-navigation/native"
+import { Button, StyleSheet, Text, View,TextInput, KeyboardAvoidingView,LogBox } from 'react-native';
 import DatePicker from "react-native-datepicker"
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-let csvToJson = require('convert-csv-to-json');
-
-const mongo = require("mongoose")
-const {mon} = require('./key')
-const data = require('./model/user')
-
 export default function App({ navigation }) {
   const [gender,setGender]= useState("")
   const[isDiagonised,setDiagon] = useState("")
@@ -21,6 +13,9 @@ export default function App({ navigation }) {
     {label: 'Yes  ', value: 1 },
     {label: 'No', value: 0 }
   ];
+
+  LogBox.ignoreAllLogs();
+
   return (
 
     <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
